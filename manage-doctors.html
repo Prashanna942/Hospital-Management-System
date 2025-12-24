@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Doctors</title>
+<link rel="stylesheet" href="../css/forms.css">
+</head>
+<body>
+<h2>Manage Doctors</h2>
+<form id="doctorForm">
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="text" id="speciality" placeholder="Speciality" required>
+  <button type="submit">Add Doctor</button>
+</form>
+<table id="doctorTable" border="1" style="width:100%;text-align:center;">
+<thead><tr><th>Name</th><th>Email</th><th>Speciality</th><th>Action</th></tr></thead>
+<tbody></tbody>
+</table>
+
+<script src="../js/storage.js"></script>
+<script>
+const tbody=document.querySelector('#doctorTable tbody');
+function renderDoctors(){
+ const docs=Storage.read('doctors');
+ tbody.innerHTML=docs.map(d=>`
+ <tr><td>${d.name}</td><td>${d.email}</td><td>${d.speciality}</td>
+ <td><button onclick="deleteDoctor(${d.id})">Delete</button></td></tr>`).join('');
+}
+function deleteDoctor(id){Storage.delete('doctors',id);renderDoctors();}
+document.getElementById('doctorForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const doctor={id:Date.now(),name:name.value,email:email.value,speciality:speciality.value};
+ Storage.add('doctors',doctor);
+ e.target.reset();
+ renderDoctors();
+});
+renderDoctors();
+</script>
+</body>
+</html>

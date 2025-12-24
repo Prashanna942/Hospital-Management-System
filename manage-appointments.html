@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Manage Appointments | HMS</title>
+<link rel="stylesheet" href="../css/forms.css">
+</head>
+<body>
+<h2 style="text-align:center;color:#007bff;">Manage Appointments</h2>
+
+<table id="apptTable" border="1" style="width:100%;text-align:center;">
+  <thead>
+    <tr>
+      <th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div style="text-align:center;margin-top:20px;">
+  <a href="../admin-dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<script src="../js/storage.js"></script>
+<script>
+const tbody=document.querySelector('#apptTable tbody');
+
+function renderAppointments(){
+  const apps=Storage.read('appointments');
+  tbody.innerHTML = apps.length ? apps.map(a=>`
+    <tr>
+      <td>${a.patientName}</td>
+      <td>${a.doctorName}</td>
+      <td>${a.date}</td>
+      <td>${a.time}</td>
+      <td>${a.status}</td>
+      <td>
+        <button onclick="deleteApp(${a.id})">Delete</button>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="6">No appointments found.</td></tr>';
+}
+
+function deleteApp(id){
+  if(confirm('Delete this appointment?')){
+    Storage.delete('appointments',id);
+    renderAppointments();
+  }
+}
+renderAppointments();
+</script>
+</body>
+</html>

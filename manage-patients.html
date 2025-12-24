@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Manage Patients | HMS</title>
+<link rel="stylesheet" href="../css/forms.css">
+</head>
+<body>
+<h2 style="text-align:center;color:#007bff;">Manage Patients</h2>
+
+<form id="patientForm" class="form-container" style="flex-direction:column;align-items:center;">
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <input type="number" id="age" placeholder="Age" required>
+  <button type="submit" style="background:#007bff;">Add Patient</button>
+</form>
+
+<table id="patientTable" border="1" style="width:100%;text-align:center;margin-top:20px;">
+  <thead>
+    <tr>
+      <th>Name</th><th>Email</th><th>Age</th><th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div style="text-align:center;margin-top:20px;">
+  <a href="../admin-dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<script src="../js/storage.js"></script>
+<script>
+const tbody = document.querySelector('#patientTable tbody');
+
+function renderPatients(){
+  const patients = Storage.read('patients');
+  tbody.innerHTML = patients.length ? patients.map(p=>`
+    <tr>
+      <td>${p.name}</td>
+      <td>${p.email}</td>
+      <td>${p.age}</td>
+      <td><button onclick="deletePatient(${p.id})">Delete</button></td>
+    </tr>`).join('') : '<tr><td colspan="4">No patients found.</td></tr>';
+}
+
+function deletePatient(id){
+  Storage.delete('patients', id);
+  const users=Storage.read('users').filter(u=>u.id!==id);
+  Storage.write('users',users);
+  renderPatients();
+}
+
+document.getElementById('patientForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const patient = {
+    id: Date.now(),
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    age: age.value,
+    role: 'Patient'
+  };
+  Storage.add('patients', patient);
+  const users=Storage.read('users'); users.push(patient);
+  Storage.write('users',users);
+  e.target.reset();
+  renderPatients();
+});
+
+renderPatients();
+</script>
+</body>
+</html>
