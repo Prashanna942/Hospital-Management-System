@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patient Dashboard</title>
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="patient-theme">
+<nav>
+  <h1>Patient Dashboard</h1>
+  <button id="logoutBtn">Logout</button>
+</nav>
+<section class="links">
+  <a href="patient/book-appointment.html">Book Appointment</a>
+  <a href="patient/view-appointments.html">View Appointments</a>
+  <a href="patient/medical-history.html">Medical History</a>
+</section>
+<script>
+document.getElementById('logoutBtn').addEventListener('click',()=>{
+ localStorage.removeItem('currentUser');
+ location.href='login.html';
+});
+</script>
+</body>
+</html>

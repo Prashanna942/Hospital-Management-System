@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login | HMS</title>
+<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="login-container" style="background-image:url('assets/images/login-bg.jpg');">
+    <form id="loginForm" class="login-form">
+      <h2>Hospital Login</h2>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <select id="role">
+        <option value="Admin">Admin</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Patient">Patient</option>
+      </select>
+      <button type="submit">Login</button>
+      <p>Not registered? <a href="signup.html">Sign up as Patient</a></p>
+    </form>
+  </div>
+
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

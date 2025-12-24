@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Patient Signup | HMS</title>
+  <link rel="stylesheet" href="css/forms.css">
+</head>
+<body>
+  <div class="form-container">
+    <form id="signupForm">
+      <h2>Patient Registration</h2>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="number" id="age" placeholder="Age" required>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+<script src="js/storage.js"></script>
+<script>
+document.getElementById('signupForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const user = {
+    id: Date.now(),
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    age: age.value,
+    role: 'Patient'
+  };
+  const users = Storage.read('users');
+  if(users.find(u=>u.email===user.email)){
+      alert('Email already registered.');
+      return;
+  }
+  users.push(user);
+  Storage.write('users', users);
+  alert('Registration successful! Login now.');
+  location.href='login.html';
+});
+</script>
+</body>
+</html>
